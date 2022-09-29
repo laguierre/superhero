@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -9,6 +8,7 @@ import 'package:swipe_cards/swipe_cards.dart';
 import '../../constants.dart';
 import '../details_page/details_page.dart';
 import '../widgets/widgets.dart';
+import 'home_page_widgets.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage>
     _matchEngine = MatchEngine(swipeItems: _swipeItems);
     getAllHeroesList();
     controller = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 1000));
+        vsync: this, duration: const Duration(milliseconds: 700));
     animation = Tween<double>(begin: 0, end: 1).animate(controller);
     animation.addListener(() {
       setState(() {});
@@ -222,10 +222,10 @@ class _HomePageState extends State<HomePage>
                                       ctx: context),
                                 );
                               },
-                              child: Container(
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 30, vertical: 10),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                                 child: Row(
+
                                   children: [
                                     CachedNetworkImage(
                                       fit: BoxFit.contain,
@@ -261,134 +261,6 @@ class _HomePageState extends State<HomePage>
               ],
             )
           : const SlashScreen(),
-    );
-  }
-}
-
-class SlashScreen extends StatelessWidget {
-  const SlashScreen({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.black,
-        body: Stack(
-          children: [
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: -50,
-              child: SizedBox(
-                height: 400,
-                child: FadeInLeft(
-                  duration: const Duration(milliseconds: 100),
-                  child: Image.asset(
-                    'lib/assets/images/dc wallpaper.png',
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              left: -50,
-              right: -50,
-              top: 20,
-              child: FadeInRight(
-                duration: const Duration(milliseconds: 50),
-                child: Image.asset(
-                  'lib/assets/images/av wallpaper.png',
-                  fit: BoxFit.fill,
-                ),
-              ),
-            ),
-            Positioned(
-                left: 0,
-                right: 0,
-                bottom: 10,
-                child: FadeInUp(
-                  duration: const Duration(milliseconds: 50),
-                  child: SizedBox(
-                      height: 80,
-                      child:
-                          Image.asset('lib/assets/images/white_inf.gif')),
-                )),
-            Align(
-              alignment: const Alignment(0, 0.03),
-              child: FadeInLeftBig(
-                duration: const Duration(milliseconds: 50),
-                child: Text('SuperHero\nAPI',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: kSearchColor, fontSize: 70)),
-              ),
-            ),
-          ],
-        ));
-  }
-}
-
-class CustomFieldText extends StatelessWidget {
-  const CustomFieldText({
-    Key? key,
-    required this.enabled,
-    required this.textController,
-    required this.superHeroList,
-    required this.superHeroSuggestionList,
-  }) : super(key: key);
-
-  final bool enabled;
-  final TextEditingController textController;
-  final List superHeroList, superHeroSuggestionList;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 0),
-      height: 45,
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 8),
-            child: Icon(
-              Icons.search,
-              color: kSearchColor,
-              size: 40,
-            ),
-          ),
-          Expanded(
-            child: TextField(
-              onChanged: (text) {
-                print(text);
-                for (int i = 0; i < superHeroList.length; i++) {
-                  print(superHeroSuggestionList.length);
-                  if (superHeroList.contains(text)) {
-                    superHeroSuggestionList.add(superHeroList[i]);
-                  }
-                }
-              },
-              controller: textController,
-              enabled: enabled,
-              keyboardType: TextInputType.text,
-              decoration: const InputDecoration(
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                border: InputBorder.none,
-                hintText: "Search",
-                hintStyle: TextStyle(
-                    color: Colors.grey, decoration: TextDecoration.none),
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                isDense: true,
-              ),
-              style: TextStyle(
-                fontSize: 20.0,
-                decoration: TextDecoration.none,
-                color: kSearchColor,
-              ),
-            ),
-          )
-        ],
-      ),
     );
   }
 }
